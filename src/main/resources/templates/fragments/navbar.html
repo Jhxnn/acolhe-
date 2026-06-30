@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="/">Acolhe+</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <a class="navbar-brand" href="/">
+            <div class="brand-icon">
+                <i class="bi bi-heart-fill"></i>
+            </div>
+            Acolhe<span class="brand-plus">+</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Dashboard</a>
+                    <a class="nav-link" href="/">
+                        <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/pessoas">Pessoas</a>
+                    <a class="nav-link" href="/pessoas">
+                        <i class="bi bi-people-fill"></i> Pessoas
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/pessoas/novo">Nova Pessoa</a>
+                    <a class="nav-link" href="/pessoas/novo">
+                        <i class="bi bi-person-plus-fill"></i> Nova Pessoa
+                    </a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link btn btn-sm" style="background:rgba(67,97,238,0.25); color:white !important;" href="/relatorio/pdf" target="_blank">
+                        <i class="bi bi-file-earmark-pdf-fill" style="color:#ff6b6b;"></i> Relatório PDF
+                    </a>
                 </li>
             </ul>
         </div>

@@ -2,51 +2,86 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Auxílios - Acolhe+</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1>Auxílios de <span th:text="${pessoa.nome}"></span></h1>
-        </div>
-        <div>
-            <a th:href="@{/pessoas/{id}/auxilios/novo(id=${pessoa.id})}" class="btn btn-primary">+ Novo Auxílio</a>
-            <a href="/pessoas" class="btn btn-outline-secondary">Voltar</a>
-        </div>
-    </div>
+<div class="page-wrapper">
+    <div class="container">
 
-    <table class="table table-striped table-hover align-middle">
-        <thead class="table-dark">
-        <tr>
-            <th>Tipo</th>
-            <th>Descrição</th>
-            <th>Valor Estimado</th>
-            <th>Data de Entrega</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="auxilio : ${auxilios}">
-            <td th:text="${auxilio.tipoAuxilio}"></td>
-            <td th:text="${auxilio.descricao}"></td>
-            <td>R$ <span th:text="${auxilio.valorEstimado}"></span></td>
-            <td th:text="${#temporals.format(auxilio.dataEntrega, 'dd/MM/yyyy')}"></td>
-            <td>
-                <a th:href="@{/pessoas/{id}/auxilios/excluir/{auxilioId}(id=${pessoa.id},auxilioId=${auxilio.id})}"
-                   class="btn btn-sm btn-danger"
-                   onclick="return confirm('Tem certeza que deseja excluir este auxílio?');">Excluir</a>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(auxilios)}">
-            <td colspan="5" class="text-center text-muted">Nenhum auxílio registrado para esta pessoa.</td>
-        </tr>
-        </tbody>
-    </table>
+        <div class="page-header d-flex align-items-start justify-content-between flex-wrap gap-3">
+            <div>
+                <h1 class="page-title">
+                    <i class="bi bi-box-seam-fill me-2" style="color:#4cc9f0;"></i>
+                    Auxílios de <span th:text="${pessoa.nome}"></span>
+                </h1>
+                <p class="page-subtitle">Histórico de auxílios entregues para este beneficiário</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <a th:href="@{/pessoas/{id}/auxilios/novo(id=${pessoa.id})}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle-fill"></i> Novo Auxílio
+                </a>
+                <a href="/pessoas" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <div class="content-card-header">
+                <h2 class="content-card-title">
+                    <i class="bi bi-table text-info"></i> Registros de Auxílios
+                </h2>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-custom">
+                    <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Valor Estimado</th>
+                        <th>Data de Entrega</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="auxilio : ${auxilios}">
+                        <td>
+                            <span class="badge-status" style="background:#eef0fd; color:#4361ee; font-size:0.8rem; padding:0.3rem 0.75rem; border-radius:100px; font-weight:600;"
+                                  th:text="${auxilio.tipoAuxilio}"></span>
+                        </td>
+                        <td th:text="${auxilio.descricao}"></td>
+                        <td class="renda-value">R$ <span th:text="${#numbers.formatDecimal(auxilio.valorEstimado, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                        <td th:text="${#temporals.format(auxilio.dataEntrega, 'dd/MM/yyyy')}" style="font-size:0.85rem;"></td>
+                        <td>
+                            <a th:href="@{/pessoas/{id}/auxilios/excluir/{auxilioId}(id=${pessoa.id},auxilioId=${auxilio.id})}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Tem certeza que deseja excluir este auxílio?');">
+                                <i class="bi bi-trash3-fill"></i> Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div th:if="${#lists.isEmpty(auxilios)}" class="empty-state">
+                    <div class="empty-state-icon"><i class="bi bi-box-seam"></i></div>
+                    <p class="empty-state-text">Nenhum auxílio registrado para este beneficiário.</p>
+                    <a th:href="@{/pessoas/{id}/auxilios/novo(id=${pessoa.id})}" class="btn btn-primary mt-2">
+                        <i class="bi bi-plus-circle-fill"></i> Registrar primeiro auxílio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
